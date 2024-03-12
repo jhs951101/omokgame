@@ -36,18 +36,6 @@
 			var whoPlacedArr = null;
 			var aiWeightArr = null;
 
-			function test(id1, id2, playerId){
-				addStone(id1, id2, playerId);
-				computerId = playerId + 1;
-
-				const positions = getPositionsFromWeight(computerId);
-				const randomId = getRandomInt(0, positions.length-1);
-
-				const row = positions[randomId].row;
-				const col = positions[randomId].col;
-				addStone(row, col, computerId);
-			}
-
 			function addStone(id1, id2, playerId){
 				if(whoPlacedArr[id1][id2] != null){
 					return;
@@ -386,6 +374,17 @@
 				return result;
 			}
 
+			function checkWhoWin(){
+				for(var i=0; i<playerInfos.length; i++){
+					const positions = getLinePositions(i, 5);
+
+					if(positions.length >= 1){
+						console.log(playerInfos[i].name + '님 승리!');
+						break;
+					}
+				}
+			}
+
 			//
 
 			function getRandomInt(min, max){
@@ -430,6 +429,22 @@
 
 				result = true;
 				return result;
+			}
+
+			function test(id1, id2, playerId){
+				addStone(id1, id2, playerId);
+				checkWhoWin();
+
+				computerId = playerId + 1;
+
+				const positions = getPositionsFromWeight(computerId);
+				const randomId = getRandomInt(0, positions.length-1);
+
+				const row = positions[randomId].row;
+				const col = positions[randomId].col;
+				
+				addStone(row, col, computerId);
+				checkWhoWin();
 			}
 
 			window.onload = function(){
